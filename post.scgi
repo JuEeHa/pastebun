@@ -1,0 +1,17 @@
+#!/bin/sh
+
+test -d files || mkdir files
+POST=$(cat | tr '&' '
+')
+FNAME=
+while test -e files/$FNAME
+do
+	FNAME=$(dd if=/dev/random of=/dev/stdout bs=512 count=1 2> /dev/null | md5sum | head -c 8)
+done
+KEY="$(printf "%s\n" "$POST" | grep 'key' | cut -d '=' -f 2)"
+test ! -n "$KEY" && KEY=$(dd if=/dev/random of=/dev/stdout bs=512 count=1 2> /dev/null | sha1sum | cut -d ' ' -f 1)
+$(which printf) "$(printf "%s\n" $POST | grep '^text=' | cut -d '=' -f 2- | sed 'y/+/ /;s/%0D%0A/%0A/g;s/\\/\\\\/g;s/%/\\x/g;')" | openssl enc -aes256 -k "$KEY" | gzip -f > "files/$FNAME"
+
+echo "Refresh:0; url=view/?$FNAME?$KEY"
+. ../scgi/html
+echo "<a href=\"url=view/?$FNAME?$KEY\">Refresh</a>"

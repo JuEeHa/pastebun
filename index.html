@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body style="max-width: 1000px; margin: auto;">
+		<p>pastebun is an anonymous and secure (for some values of secure) pastebin service. All pastes are encrypted with AES256 with 40 char long keys. The key is not stored anywhere and is read from URL when decrypting the paste. Likewise decrypted pastes are not stored anywhere. Then again if you're using it over clearnet everything is sent plain-text.</p>
+		<p>If you feel you can't trust code you don't know, <a href="https://github.com/JuEeHa/pastebun">know it</a></p>
+		<form action="post.scgi" method="post">
+			Password (optional): <input type="text" name="key"/>
+			<br>
+			<textarea name="text" style="width: 99%;" rows="30" cols="60"></textarea>
+			<br>
+			<input type="submit" value="Paste"/>
+		</form>
+	</body>
+</html>

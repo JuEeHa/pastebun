@@ -1,0 +1,18 @@
+#!/bin/sh
+FNAME=$(echo $REQUEST_URI | cut -d '?' -f 2)
+KEY=$(echo $REQUEST_URI | cut -d '?' -f 3)
+
+if test -e ../files/$FNAME
+then
+	if test z"$KEY" != z
+	then
+		. ../../scgi/plain
+		zcat "../files/$FNAME" | openssl enc -aes256 -d -k "$KEY"
+	else
+		. ../../scgi/html
+		echo "<h1>Error</h1><p>You can't use empty password, you idiot</p>"
+	fi
+else
+	. ../../scgi/html
+	echo "<h1>Error</h1><p>Paste '$FNAME' not found</p>"
+fi
