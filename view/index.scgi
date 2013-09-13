@@ -10,7 +10,7 @@ then
 		zcat "../files/$FNAME" | openssl enc -aes256 -d -k "$KEY"
 	else
 		. ../../scgi/html
-		echo "<h1>Error</h1><p>You can't use empty password, you idiot</p>"
+		echo '<form action="pass.scgi" method="post"><input type="hidden" name="name" value="'"$FNAME"'"/>Password: <input type="text" name="key"/><input type="submit" value="Decrypt"/></form>'
 	fi
 else
 	. ../../scgi/html

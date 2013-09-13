@@ -1,0 +1,8 @@
+#!/bin/sh
+POST="$(cat | tr '&' '
+')"
+FNAME=$(printf "%s\n" "$POST" | grep '^name=' | cut -d '=' -f 2)
+KEY=$(printf "%s\n" "$POST" | grep '^key=' | cut -d '=' -f 2)
+echo "Refresh:0; url=./?$FNAME?$KEY"
+. ../../scgi/html
+echo "<a href=\"./?$FNAME?$KEY\">Refresh</a>"

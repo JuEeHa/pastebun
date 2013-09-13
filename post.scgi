@@ -1,8 +1,8 @@
 #!/bin/sh
 
 test -d files || mkdir files
-POST=$(cat | tr '&' '
-')
+POST="$(cat | tr '&' '
+')"
 FNAME=
 while test -e files/$FNAME
 do
